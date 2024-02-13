@@ -20,7 +20,7 @@ const ScrollContainer = ({ photos = [] }) => {
       {photos.map((photo, index) => (
         <div key={index} className="flex-shrink-0">
           {/* Set a fixed height (e.g., h-96) for the images */}
-          <img src={photo.url} alt={`Photo ${index + 1}`} className="w-48 h-96 object-cover aspect-w-1080 aspect-h-2336 mr-4" />
+          <img src={photo.url} alt={`${index + 1}`} className="w-48 h-96 object-cover aspect-w-1080 aspect-h-2336 mr-4" />
         </div>
       ))}
     </div>
