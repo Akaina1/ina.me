@@ -52,7 +52,7 @@ const ScrollContainer = () => {
         <div className="flex-shrink-0 flex">
           {/* Display the fetched photos */}
           {visiblePhotos.map((photoFilename, index) => (
-            <div key={index} className="w-48 h-96 object-cover mb-4 aspect-w-1080 aspect-h-2336 mr-4">
+            <div key={index} className="w-56 h-100 object-cover mb-4 aspect-w-1080 aspect-h-2336 mr-4">
               <img
                 src={`https://ina-gallery.fly.dev/photos/${encodeURIComponent(photoFilename)}`}
                 alt={`${index + 1}`}
