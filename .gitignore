@@ -10,7 +10,7 @@
 
 # production
 /build
-functions
+secret
 
 # misc
 .DS_Store
