@@ -12,7 +12,6 @@ const ScrollContainer = () => {
     const getPhotos = async () => {
       try {
         const fetchedPhotos = await fetchPhotos();
-        console.log('Fetched Photos:', fetchedPhotos);
         setPhotos(fetchedPhotos);
       } catch (error) {
         console.error('Error fetching photos:', error.message);
@@ -37,7 +36,7 @@ const ScrollContainer = () => {
           }
         });
       },
-      { threshold: 1 } // Adjust the threshold as needed
+      { threshold: 0.5 } // Adjust the threshold as needed
     );
 
     observer.observe(containerRef.current);
