@@ -1,6 +1,5 @@
 const { google } = require('googleapis');
 const axios = require('axios');
-const fs = require('fs');
 
 // Load your OAuth client ID and secret
 const credentials = {
@@ -15,15 +14,22 @@ const credentials = {
 const { client_id, client_secret, redirect_uris } = credentials.installed;
 const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uris[0]);
 
-// Load previously stored token or get a new one
-const TOKEN_PATH = 'token.json';
+const TOKEN_KEY = 'google_token'; // Key to store token in environment variables
 
 async function authorize() {
-  try {
-    // Check if we have a token stored
-    const token = fs.readFileSync(TOKEN_PATH);
-    oAuth2Client.setCredentials(JSON.parse(token));
-  } catch (err) {
+  let token;
+
+  // Check if we have a token stored
+  if (process.env.NODE_ENV === 'development') {
+    // In development, get the token from environment variables
+    token = process.env[TOKEN_KEY];
+  } else {
+    // In production, get the token from the serverless environment
+    // (e.g., Netlify environment variables)
+    token = process.env[TOKEN_KEY];
+  }
+
+  if (!token) {
     // If no token, get a new one
     const authUrl = oAuth2Client.generateAuthUrl({
       access_type: 'offline',
@@ -40,7 +46,10 @@ async function authorize() {
     oAuth2Client.setCredentials(tokenResponse.tokens);
 
     // Save the token for future use
-    fs.writeFileSync(TOKEN_PATH, JSON.stringify(tokenResponse.tokens));
+    process.env[TOKEN_KEY] = JSON.stringify(tokenResponse.tokens);
+  } else {
+    // If token is already present, set it in oAuth2Client
+    oAuth2Client.setCredentials(JSON.parse(token));
   }
 
   return oAuth2Client;
@@ -72,5 +81,3 @@ async function fetchPhotos(auth) {
   const photos = response.data.mediaItems;
   return photos;
 }
-
-module.exports = fetchPhotos;
