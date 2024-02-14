@@ -1,11 +1,18 @@
 const express = require('express');
+const cors = require('cors');
+const AWS = require('aws-sdk');
+
 const app = express();
-const PORT = process.env.PORT || 5000; // Use the port specified by the environment or default to 3001
+const PORT = process.env.PORT || 5000;
 
-app.get('/', (req, res) => {
-  res.send('Hello, this is your backend server!');
+// Set up AWS credentials
+AWS.config.update({
+  accessKeyId: 'YOUR_ACCESS_KEY_ID',
+  secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
+  region: 'YOUR_S3_REGION', // e.g., us-east-1
 });
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
